@@ -86,6 +86,8 @@ proj_WGS84 = Proj(init='epsg:4326')
 
 df_6['lon'], df_6['lat'] = transform(proj_ITRF, proj_WGS84, df_6['POINT_X'], df_6['POINT_Y'])
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103287917-07cd3100-4a27-11eb-8684-dda5a66282da.png"></img>
+
 - wgs84좌표 변환 -> 주소 변환 -> 읍면동 데이터 가져오기 (카카오API 활용)
 ```python
 import requests
@@ -106,6 +108,8 @@ print('converted point to addr')
 dic = {'dong':dong_ls}
 df_dong = pd.DataFrame(dic)
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103288058-61356000-4a27-11eb-8b41-22b2a17c3a94.png" width="70%" height="80%"></img>
+
 
 ### 1.2 데이터 "Type" 열 분류작업
 - Type(업종)이 200여개로 분류되어있어 유사업종을 하나의 카테고리로 병합하는 작업을 하였습니다. 
@@ -150,6 +154,11 @@ sns.barplot(data=jeju_all, x="dong", y="TotalSpent", ax=ax4) # 읍면동별 총 
 sns.barplot(data=jeju_all, x="Type", y="TotalSpent", ax=ax5) # 업종별 사용금액 
 sns.barplot(data=jeju_all, x="Category", y="TotalSpent", ax=ax6) # 업종구분별 사용금액 
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103288940-5da2d880-4a29-11eb-8f08-e3888ca363af.png"></img>
+<img src="https://user-images.githubusercontent.com/72846894/103288974-74492f80-4a29-11eb-8054-81240bc38536.png"></img>
+<img src="https://user-images.githubusercontent.com/72846894/103288999-832fe200-4a29-11eb-8e7b-d41da2f93db3.png"></img>
+
+
 #### 2) 월별 소비 상위 10개 업종 분석(이용건수 기준)
 ```python3
 # 월별 업종별로 그룹핑하여 평균 구하기
@@ -175,6 +184,7 @@ norm_jeju_type_7[col] = num_jeju_type_7[col]
 norm_jeju_type_8[col] = num_jeju_type_8[col]
 
 ```
+
 ##### 2-1) 총이용건수 상위 10개 업종
 ```python
 fig = plt.figure(figsize=(20,20))
@@ -195,6 +205,7 @@ ax4 = sns.barplot(x='Type', y='NumofSpent', data=norm_jeju_type_8.nlargest(10, '
 ax4.set_title('8월 업종별 평균 이용건수 (NumofSpent)')
 plt.show()
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103289493-b3c44b80-4a2a-11eb-8057-23cabd9ca085.png"></img>
 
 ##### 2-2) 재난지원금 이용건수 상위 10개 업종
 ```python
@@ -216,6 +227,8 @@ ax4 = sns.barplot(x='Type', y='NumofDisSpent', data=norm_jeju_type_8.nlargest(10
 ax4.set_title('8월 업종별 평균 지원금 이용건수 (NumofDisSpent)')
 plt.show()
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103289792-685e6d00-4a2b-11eb-8a08-1ff9340432a8.png"></img>
+
 #### 3) 시간별 소비 상위 10개 업종분석 
 ```python
 def df_time(b,c):
@@ -256,6 +269,9 @@ ax5.set_title("저녁", fontsize=20)
 ax6.set_title("심야", fontsize=20)
 plt.suptitle('제주도 시간별 소비현황' ,fontsize=20)
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103289882-9f348300-4a2b-11eb-9687-95ad150bb249.png"></img>
+<img src="https://user-images.githubusercontent.com/72846894/103290011-defb6a80-4a2b-11eb-8c15-fdfa1061ddcd.png"></img>
+
 
 #### 4)업종별 시간대 사용금액(이용건수) 추이분석
 - 시간대에 따라 이용건수의 분포가 명확하게 나타날 것으로 생각한 유통/판매 및 외식업종을 기준으로
@@ -278,6 +294,7 @@ ax4 = sns.pointplot(x='Time', y='TotalSpent', data=jeju_all[(jeju_all['Type'] ==
 ax4.set_title('기타음료식품')
 plt.show()
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103290160-3d284d80-4a2c-11eb-82bc-874a4ab58a9d.png"></img>
 
 #### 5)지역별 소비분석
 - 지역별 상위 5개 업종
@@ -349,6 +366,13 @@ for i in range(len(df_ys['FranClass'])):
 
 map
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103291278-b5900e00-4a2e-11eb-88a1-f8cfb2119db9.png"></img>
+```python
+# 지역별-업종규모별 총사용금액 
+f, ax = plt.subplots(figsize=(20,4))
+sns.barplot(x='dong_cat', y ='TotalSpent', data=jeju_all, hue='FranClass')
+```
+<img src="https://user-images.githubusercontent.com/72846894/103290561-3221ed00-4a2d-11eb-993d-00cd7f495aad.png"></img>
 
 
 ### 2. 재난지원금 분석 - 기간별
@@ -363,7 +387,7 @@ figure.set_size_inches(18,5)
 sns.barplot(data=jeju_all, x="YM", y="TotalSpent", ax=ax1)
 sns.barplot(data=jeju_all, x="YM", y="DisSpent", ax=ax2)
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103290735-92b12a00-4a2d-11eb-871e-59a55293f41c.png"></img>
 ```python
 # 전체 기간의 소비 대비 재난지원금 사용비율
 
@@ -383,7 +407,7 @@ ax2 = plt.title(title)
 
 plt.show()
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103290788-ad839e80-4a2d-11eb-842c-0abf0006d4eb.png"></img>
 ```python
 jeju_total = jeju_all.groupby('YM')['TotalSpent'].sum()
 jeju_dis = jeju_all.groupby('YM')['DisSpent'].sum()
@@ -414,7 +438,7 @@ for p in ax2.patches:
     y = p.get_y() + p.get_height()
     ax2.annotate(percentage, (x, y))
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103290846-cc823080-4a2d-11eb-92c0-9dd4753dfefc.png"></img>
 ```python
 sukbak = jeju_all[(jeju_all['Type'].isin(('기타숙박업', '특급호텔', '2급호텔', '1급호텔', '콘도', '렌트카', '기타교통수단')))]
 
@@ -430,7 +454,7 @@ ax2 = sns.barplot(x='YM', y='TotalSpent', hue='Type', data=sukbak.groupby(['YM',
 ax2.set_title('월별 숙박 이용금액')
 plt.show()
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103291058-4ca89600-4a2e-11eb-9336-0ee9515302fc.png"></img>
 ```python
 jeju_all['count'] = 1
 
@@ -475,7 +499,7 @@ ax4.legend(loc='best', frameon=True)
 ax4.set_title('8월 업종별 TOP10 count의 총이용건수와 총 재난지원금 이용건수')
 plt.show()
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103290978-1cf98e00-4a2e-11eb-8595-d7d32846f7e8.png"></img>
 
 ```python
 # 월별, 업종별로 각각 총 이용건수와 이용금액으로, 총 재난지원금 이용건수와 재난지원금 사용금액으로 그룹핑
@@ -505,6 +529,7 @@ ax4.set_title('월별 TOP10 업종별 지원금 이용건수')
 ax4.legend(loc='best')
 plt.show()
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103291119-68ac3780-4a2e-11eb-9ed0-1af3d932c526.png"></img>
 
 ### 3. 재난지원금 분석 - 업종별
 
@@ -520,7 +545,7 @@ jeju_may_aug = jeju_all[cond1|cond2]
 f, ax = plt.subplots(figsize=(20,4))
 sns.barplot(x='Category', y ='TotalSpent', data=jeju_may_aug, hue='YM'
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103291725-bf664100-4a2f-11eb-831d-dd86b4d8d0e0.png"></img>
 
 ### 4. 재난지원금 분석 - 지역별
 
@@ -528,17 +553,19 @@ sns.barplot(x='Category', y ='TotalSpent', data=jeju_may_aug, hue='YM'
 f, ax = plt.subplots(figsize=(20,4))
 sns.barplot(x='dong_cat', y ='TotalSpent', data=jeju_all, hue='YM')
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103291793-e3298700-4a2f-11eb-9e5a-2f18643cf5c1.png"></img>
 ```python
 f, ax = plt.subplots(figsize=(20,4))
 sns.barplot(x='SIGUNGU', y ='TotalSpent', data=jeju_may_aug, hue='YM')
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103291852-02281900-4a30-11eb-9209-4355e9bfb21c.png"></img>
+
 ### 5. 재난지원금 - 소상공인 구분 ; 재난지원금 어떤 규모의 소상공인에게 소비 활성화
 ```python
 f, ax = plt.subplots(figsize=(20,4))
 sns.barplot(x='FranClass', y ='TotalSpent', data=jeju_all, hue='YM')
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103291977-356aa800-4a30-11eb-9aed-423f6fe10d6d.png"></img>
 ```python
 plt.figure(figsize=(10,10))
 
@@ -554,7 +581,7 @@ plt.legend(cat)
 
 plt.show()
 ```
-
+<img src="https://user-images.githubusercontent.com/72846894/103292208-b9249480-4a30-11eb-902b-579527949553.png"></img>
 ```python
 figure, ((ax1,ax2), (ax3,ax4)) = plt.subplots(nrows=2, ncols=2, constrained_layout=True)
 figure.set_size_inches(18,8)
@@ -570,6 +597,8 @@ ax4.set_title("영세")
 
 plt.show()
 ```
+<img src="https://user-images.githubusercontent.com/72846894/103292278-d6f1f980-4a30-11eb-9d95-3e8a21050729.png"></img>
+
 ## 결과
 
 ### 1. 제주도의 전반적인 소비분석
