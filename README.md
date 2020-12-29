@@ -1,4 +1,6 @@
-# 제주도 사용금액 데이터를 통한 소비행태 및 재난지원금 효과 분석
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fgjbae1212%2Fhit-counter)](https://hits.seeyoufarm.com)                    
+
+# 제주도 사용금액 데이터를 통한 소비행태 및 재난지원금 효과 분석 :moneybag:
 
 ## 개요 
 
@@ -639,7 +641,7 @@ plt.show()
 
 
 
-## 함께한 분석가
+## 함께한 분석가 :thumbsup:
   
 - 김경한 
   - 시간별 데이터 분석, 시각화 및 인사이트 도출
